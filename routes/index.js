@@ -1,39 +1,58 @@
 var express = require('express');
 var router = express.Router();
 
+var articleModel = require('../models/articles')
+var orderModel = require('../models/orders')
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index');
 });
 
 /* GET tasks page. */
 router.get('/tasks-page', function(req, res, next) {
-  res.render('tasks', { title: 'Express' });
+  res.render('tasks');
 });
 
 /* GET Messages page. */
 router.get('/messages-page', function(req, res, next) {
-  res.render('messages', { title: 'Express' });
+  res.render('messages');
 });
 
-/* GET Messages page. */
+/* GET Users page. */
 router.get('/users-page', function(req, res, next) {
-  res.render('users', { title: 'Express' });
+  res.render('users');
 });
 
-/* GET Messages page. */
-router.get('/catalog-page', function(req, res, next) {
-  res.render('catalog', { title: 'Express' });
+/* GET Catalog page. */
+router.get('/catalog-page', async function(req, res, next) {
+
+  var articles = await articleModel.find();
+
+  res.render('catalog', {articles});
 });
 
-/* GET Messages page. */
-router.get('/orders-list-page', function(req, res, next) {
-  res.render('orders-list', { title: 'Express' });
+/* GET Orders-list page. */
+router.get('/orders-list-page', async function(req, res, next) {
+
+  var orders = await orderModel.find();
+  
+  res.render('orders-list', {orders});
 });
 
-/* GET Messages page. */
-router.get('/order-page', function(req, res, next) {
-  res.render('order', { title: 'Express' });
+/* GET Order detail page. */
+router.get('/order-page', async function(req, res, next) {
+
+  var order = await orderModel.findById(req.query.id)
+                              .populate('articles')
+                              .exec()
+
+  res.render('order', {order});
+});
+
+/* GET chart page. */
+router.get('/charts', function(req, res, next) {
+  res.render('charts');
 });
 
 
