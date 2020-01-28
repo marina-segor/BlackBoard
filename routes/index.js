@@ -3,25 +3,56 @@ var router = express.Router();
 
 var articleModel = require('../models/articles')
 var orderModel = require('../models/orders')
+var userModel = require('../models/users')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index');
+router.get('/', async function(req, res, next) {
+
+  var emptyStocks = await articleModel.find({stock:0})
+
+  var user = await userModel.findById('5c52e4efaa4beef85aad5e52');
+  var messages = user.messages;
+  
+  var unreadMessages = 0;
+  for(var i=0;i<messages.length;i++){
+    if(messages[i].read == false){
+      unreadMessages +=1
+    }
+  }
+
+  var taches = user.tasks;
+  var taskInprogress = 0
+
+  for(var i=0;i<taches.length;i++){
+    if(taches[i].dateCloture == null){
+      taskInprogress +=1;
+    }
+  }
+
+  res.render('index',{emptyStocks:emptyStocks.length,unreadMessages,taskInprogress});
 });
 
 /* GET tasks page. */
-router.get('/tasks-page', function(req, res, next) {
-  res.render('tasks');
+router.get('/tasks-page', async function(req, res, next) {
+
+  var user = await userModel.findById('5c52e4efaa4beef85aad5e52');
+  res.render('tasks', {taches: user.tasks});
 });
 
 /* GET Messages page. */
-router.get('/messages-page', function(req, res, next) {
-  res.render('messages');
+router.get('/messages-page', async function(req, res, next) {
+
+  var user = await userModel.findById('5c52e4efaa4beef85aad5e52');
+
+  res.render('messages', {messages: user.messages});
 });
 
 /* GET Users page. */
-router.get('/users-page', function(req, res, next) {
-  res.render('users');
+router.get('/users-page', async function(req, res, next) {
+
+  var users = await userModel.find({status: "customer"});
+
+  res.render('users', {users});
 });
 
 /* GET Catalog page. */
