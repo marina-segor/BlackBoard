@@ -23,6 +23,8 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet">
+
   </head>
 
   <body id="page-top">
@@ -42,20 +44,45 @@
 
           <div class="row">
 
-            <div class="col-12 col-md-4 mb-3 chart">
-              <img class="img-fluid" src="/images/chart1.jpg">
+            <div class="card col-12 col-md-4 mb-3 chart">
+                <div class="card-header">
+                  <i class="fas fa-chart-pie"></i>
+                  Nombre d'utilisateurs par sexe
+                </div>
+                <div class="card-body">
+                  <canvas data-female="<%=numFemale%>" data-male="<%=numMale%>" id="chartBar" width="100" height="100"></canvas>
+                </div>
+              
             </div>
 
-            <div class="col-12 col-md-4 mb-3 chart">
-              <img class="img-fluid" src="/images/chart2.jpg">
+            <div class="card col-12 col-md-4 mb-3 chart">
+              <div class="card-header">
+                <i class="fas fa-chart-pie"></i>
+                Nombre de messages lus et non lus
+              </div>
+              <div class="card-body">
+                <canvas data-lu="<%=messLu%>" data-nonlu="<%=messNonLu%>" id="doughnut" width="100" height="100"></canvas>
+              </div>
             </div>
 
-            <div class="col-12 col-md-4 mb-3 chart">
-              <img class="img-fluid" src="/images/chart3.jpg">
+            <div class="card col-12 col-md-4 mb-3 chart">
+              <div class="card-header">
+                <i class="fas fa-chart-pie"></i>
+                Commandes expédiées / non expédiées
+              </div>
+              <div class="card-body">
+                <canvas data-exp="<%=nbExp%>" data-nonexp="<%=nbNonExp%>" id="chartpie" width="100" height="100"></canvas>
+              </div>
             </div>
 
-            <div class="col-12 col-md-4 mb-3 chart">
-              <img class="img-fluid" src="/images/chart4.jpg">
+            <div class="card col-12 col-md-4 mb-3 chart">
+              <div class="card-header">
+                <i class="fas fa-chart-pie"></i>
+                Chiffre d'affaire par mois
+              </div>
+              <div class="card-body">
+                <canvas data-chartviz="<%=JSON.stringify(totalCAByMonth)%>"  id="linechart" width="100" height="100"></canvas>
+              </div>
             </div>
             
           </div>
@@ -93,6 +120,8 @@
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin.min.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+    <script src="js/dataviz.js"></script>
   </body>
 
 </html>
